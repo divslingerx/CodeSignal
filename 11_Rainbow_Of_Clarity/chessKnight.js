@@ -21,20 +21,45 @@
 // [output] integer
 
 function chessKnight(cell) {
-  let code = c => c.charCodeAt(0);
+  function chessKnight(cell) {
+    const xLookup = {
+      a: 1,
+      b: 2,
+      c: 3,
+      d: 4,
+      e: 5,
+      f: 6,
+      g: 7,
+      h: 8
+    };
 
-  let [i, j] = cell.split("").map(c => code(c));
-  let isGoodRow = i => i >= code("a") && i <= code("h");
-  let isGoodCol = j => j >= code("1") && j <= code("8");
+    const x = xLookup[cell[0]];
+    const y = Number(cell[1]);
 
-  let count = 0;
-  [i - 2, i + 2].forEach(i => {
-    count += [j - 1, j + 1].filter(j => isGoodRow(i) && isGoodCol(j)).length;
-  });
-  [j - 2, j + 2].forEach(j => {
-    count += [i - 1, i + 1].filter(i => isGoodRow(i) && isGoodCol(j)).length;
-  });
-  return count;
+    const possibleMoves = [
+      [x + 1, y + 2],
+      [x + 2, y + 1],
+      [x + 2, y - 1],
+      [x + 1, y - 2],
+      [x - 1, y - 2],
+      [x - 2, y - 1],
+      [x - 2, y + 1],
+      [x - 1, y + 2]
+    ];
+
+    const checkX = x => {
+      return x > 0 && x <= 8;
+    };
+
+    const checkY = y => {
+      return y > 0 && y <= 8;
+    };
+
+    return possibleMoves.filter(move => {
+      const [x, y] = move;
+      if (checkX(x) && checkY(y)) return true;
+    }).length;
+  }
 }
 
 // Input:
