@@ -30,21 +30,6 @@
 // }
 
 function allLongestStrings(inputArray) {
-  var arr = [];
-  inputArray.sort(function(a, b) {
-    //sort array by length of word
-    if (a.length < b.length) {
-      return 1;
-    }
-  });
-  var max = inputArray[0].length;
-  console.log("The largest item in array is: " + max);
-  inputArray.forEach(function(item) {
-    if (item.length == max) {
-      arr.push(item);
-    }
-  });
-  console.log(inputArray);
-  console.log(arr);
-  return arr;
+  const maxLength = Math.max(...(inputArray.map(el => el.length)));
+  return inputArray.filter(item => item.length === maxLength)
 }
