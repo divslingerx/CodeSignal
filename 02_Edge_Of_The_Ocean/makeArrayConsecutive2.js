@@ -32,14 +32,8 @@
 // }
 
 function makeArrayConsecutive2(statues) {
-  var max = Math.max.apply(null, statues);
-  var min = Math.min.apply(null, statues);
-  var d;
-
-  if (statues.length - 2 !== max - min - 1) {
-    d = max - min - 1 - (statues.length - 2);
-  } else {
-    d = 0;
-  }
-  return d;
+   // max-min to get the range 
+  // subtract the length to get the number of needed statues
+  // add one to account for zero index
+  return Math.max(...statues)-Math.min(...statues)-statues.length+1
 }
