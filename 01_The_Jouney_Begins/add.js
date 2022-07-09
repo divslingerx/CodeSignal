@@ -31,6 +31,6 @@
 //     return "Hello, " + name;
 // }
 
-function add(param1, param2) {
+function solution(param1, param2) {
   return param1 + param2;
 }
