@@ -19,26 +19,17 @@
 
 //     [output] array.integer
 
-function alternatingSums(a) {
-  var team1 = [],
-    team2 = [],
-    final = [];
-  //split the people into two teams
-  for (var i = 0; i < a.length; i++) {
-    i % 2 == 0 || i == 0 ? team1.push(a[i]) : team2.push(a[i]);
-  }
-  team1 = team1.reduce(function(acc, val) {
-    return acc + val;
-  }, 0);
-
-  team2 = team2.reduce(function(acc, val) {
-    return acc + val;
-  }, 0);
-
-  final.push(team1, team2);
-  return final;
 
   // Input:
   // a: [50, 60, 60, 45, 70]
   // [180, 105]
+
+function solution(a) {
+  return a.reduce(
+    (acc, curr, idx) => {
+      idx % 2 === 0 ? (acc[0] += curr) : (acc[1] += curr);
+      return acc;
+    },
+    [0, 0]
+  );
 }
