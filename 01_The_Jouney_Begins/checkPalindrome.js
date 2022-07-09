@@ -31,9 +31,9 @@
 //     return "Hello, " + name;
 // }
 
-function checkPalindrome(inputString) {
+function solution(inputString) {
   return (
-    inputString ==
+    inputString ===
     inputString
       .split("")
       .reverse()
