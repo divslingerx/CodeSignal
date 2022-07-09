@@ -28,24 +28,14 @@
 
 // The same matrix of characters, framed with a border of asterisks of width 1.
 
-function addBorder(picture) {
-  var p = picture;
-  var max = p[0].length + 2;
-  var edge = "";
+function solution(picture) {
+  const frameWidth = picture[0].length + 2;
 
-  for (var i = 0; i < max; i++) {
-    edge += "*";
-  }
+  const borderString = "".padEnd(frameWidth, "*");
 
-  p.unshift(edge);
-  p.push(edge);
-
-  for (var i = 0; i < p.length; i++) {
-    while (p[i].length < max) {
-      p[i] = `*${p[i]}*`;
-    }
-  }
-  return p;
+  return [borderString]
+    .concat(picture.map((item) => `*${item}*`))
+    .concat([borderString]);
 }
 
 // Input:
