@@ -21,26 +21,11 @@
 
 // Sorted array a with all the trees untouched.
 
-function sortByHeight(a) {
-  var tree = -1;
-  var arr = [];
-
-  //separate people from trees
-  for (var i = 0; i < a.length; i++) {
-    if (a[i] !== tree) {
-      arr.push(a[i]);
-    }
-  }
-  //sort the people in accending order
-  arr.sort(function(a, b) {
-    return a > b;
-  });
-  //add trees next to the people
-  for (var j = 0; j < a.length; j++) {
-    if (a[j] == tree) {
-      arr.splice(j, 0, tree);
-    }
-  }
-
-  return arr;
+function solution(a) {
+    const isTree = (n) => n === -1
+    const sortLH = (a,b) => a-b
+    
+    //sort the people from LTH
+    const sortedPeople = [...a].sort(sortLH).filter(i => !isTree(i))
+    return a.map((itm, idx) => isTree(itm) ? itm : sortedPeople.shift())
 }
