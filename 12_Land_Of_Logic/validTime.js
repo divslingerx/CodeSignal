@@ -21,15 +21,10 @@
 // true if the given representation is correct, false otherwise.
 
 function validTime(time) {
-  let t = time.split(/:/);
+  const [hr, min] = time.split(/:/);
+  const isBetween = (num, min, max) => num >= min && num <= max
 
-  let hr = t[0];
-  let min = t[1];
-
-  const hrsOk = hr >= 0 && hr <= 23;
-  const minOk = min >= 0 && min <= 59;
-
-  return hrsOk && minOk;
+  return isBetween(hr, 0, 23) && isBetween(min, 0, 59);
 }
 
 // Input:
