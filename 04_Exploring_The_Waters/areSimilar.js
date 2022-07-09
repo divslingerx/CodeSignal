@@ -43,48 +43,10 @@
 
 // true if a and b are similar, false otherwise.
 
-function areSimilar(a, b) {
-  var swaps = 0,
-    c = [],
-    d = [];
-
-  //check if identical
-  for (var i = 0; i < a.length; i++) {
-    if (a[i] !== b[i]) {
-      c.push(a[i]);
-      d.push(b[i]);
-    }
-  }
-
-  //if all match return true - outside of for loop for some reason
-  if (c.length === 0) {
-    return true;
-  }
-
-  //make sure match is possble
-  for (var i = 0; i < c.length; i++) {
-    if (d.indexOf(c[i]) == -1) return false;
-  }
-
-  //if theres only 2 we know they match
-  if (c.length == 2) return true;
-
-  var toFind = c[0];
-  var first = d[0];
-  var matchIndex = d.indexOf(c[0]);
-
-  d[0] = c[0];
-  d[matchIndex] = first;
-
-  console.log(c);
-  console.log(d);
-
-  //start from the end because we know the first is a match
-  for (var i = c.length - 1; i > 0; i--) {
-    if (a[i] != d[i]) return false;
-  }
-
-  return true;
+function solution(a, b) {
+    const ad = a.filter((v,i)=>v!=b[i])
+    const bd = b.filter((v,i)=>v!=a[i])
+    return ad.length == 0 || (ad.length == 2 && ad.join('') == bd.reverse().join(''))
 }
 
 // Input:
