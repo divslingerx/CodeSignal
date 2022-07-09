@@ -29,7 +29,7 @@
 //     return "Hello, " + name;
 // }
 
-function centuryFromYear(year) {
+function solution(year) {
   if (year <= 100) {
     return 1;
   } else if (year % 10 == 0) {
