@@ -25,13 +25,8 @@
 // Guaranteed constraints:
 // 0 ≤ substitutionElem ≤ 10.
 
-function arrayReplace(inputArray, elemToReplace, substitutionElem) {
-  for (var i = 0; i < inputArray.length; i++) {
-    if (inputArray[i] == elemToReplace) {
-      inputArray[i] = substitutionElem;
-    }
-  }
-  return inputArray;
+function solution(inputArray, elemToReplace, substitutionElem) {
+    return inputArray.map(elm => elm === elemToReplace ? substitutionElem : elm)
 }
 
 // inputArray: [1, 2, 1]
