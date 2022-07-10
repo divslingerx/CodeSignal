@@ -18,25 +18,12 @@
 
 // [output] string
 
-function buildPalindrome(st) {
-  i = 0;
-  if (
-    st !=
-    st
-      .split("")
-      .reverse()
-      .join("")
-  ) {
+function solution(st) {
+  let i = 0;
+  if (st != st.split("").reverse().join("")) {
     st += "!";
   }
-  while (
-    st.slice(0, -1) !=
-    st
-      .split("")
-      .reverse()
-      .join("")
-      .slice(1)
-  ) {
+  while (st.slice(0, -1) != st.split("").reverse().join("").slice(1)) {
     st = st.slice(0, -i - 1) + st[i] + st.slice(-i - 1);
     i++;
   }
