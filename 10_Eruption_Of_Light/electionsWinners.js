@@ -38,29 +38,10 @@
 
 
 
-function electionsWinners(votes, k) {
-    const mostVotes = Math.max.(...votes)
-
-
-    //if votes left
-    if (k === 0) {
-        //check there is only one leader
-        if (votes.indexOf(mostVotes) !== votes.lastIndexOf(mostVotes)) {
-            return 0
-        } else {
-            return 1
-        }
-    }
-
-
-
-
-
-    return votes.filter(vote => {
-        if (vote + k > mostVotes) return vote
-    }).length
-
-
+function solution(votes, k) {
+  var max = Math.max(...votes);
+  var numOfMax = votes.filter(v => v === max).length;
+  return votes.reduce((acc, v) => acc + (v === max && numOfMax === 1 || v + k > max ? 1 : 0), 0);
 }
 
 // Input:
