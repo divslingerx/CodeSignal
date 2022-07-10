@@ -53,7 +53,7 @@
 
 
 
-const differentSquares = (matrix) => {
+function solution(matrix) {
     let s = new Set();
     for(let i = 0;i < matrix.length - 1;i++){
         for(let j = 0;j < matrix[0].length - 1;j++){
@@ -61,3 +61,4 @@ const differentSquares = (matrix) => {
         }
     }
     return s.size;
+}
