@@ -34,11 +34,10 @@
 
 // true if inputString satisfies the IPv4 address naming rules, false otherwise.
 
-function isIPv4Address(str) {
-  return /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
-    str
-  );
-}
+// Note: Lets be real, no one actually writes this. We all copy from the highest rated SO post and hope for the best.
+
+const solution = inputString =>
+  /^((25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)(\.(?!$)|$)){4}$/.test(inputString);
 
 // Input:
 // inputString: "172.16.254.1"
