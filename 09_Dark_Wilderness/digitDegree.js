@@ -23,20 +23,9 @@
 
 // [output] integer
 
-function digitDegree(n) {
-  //test 4 didnt pass and i coulnt figure out why so i hardcoded the answer. I'll fix this at a later point
-  if (n === 99) return 2;
-  var count = 0;
-  while (n >= 10) {
-    var currentSum = 0;
-    while (n > 0) {
-      currentSum += n % 10;
-      n /= 10;
-    }
-    n = currentSum;
-    count++;
-  }
-  return count;
+function solution(n) {
+   if (n<10) return 0;
+    return 1 + solution(Number(String(n).split('').map(Number).reduce((a,b)=>a+b)));
 }
 
 // Input:
