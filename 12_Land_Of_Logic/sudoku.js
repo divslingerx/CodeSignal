@@ -58,7 +58,7 @@
 //     return "Hello, " + name;
 // }
 
-function sudoku(data) {
+function solution(grid) {
   let valid = true;
   let temp = [];
 
@@ -66,13 +66,13 @@ function sudoku(data) {
   let slot;
 
   // Check wrong size
-  if (data[0].length !== data.length) valid = false;
+  if (grid[0].length !== grid.length) valid = false;
 
   // slot*slot
-  slot = Math.sqrt(data.length);
+  slot = Math.sqrt(grid.length);
 
   // Verifiy horizontal
-  data.forEach((arr) => {
+  grid.forEach((arr) => {
     valid =
       valid &&
       arr.every((val, i) => {
@@ -81,8 +81,8 @@ function sudoku(data) {
   });
 
   // Verifiy vertical lines
-  data.forEach((arr, i) => {
-    temp = data.map((val) => val[i]);
+  grid.forEach((arr, i) => {
+    temp = grid.map((val) => val[i]);
     valid =
       valid &&
       arr.every((val, i) => {
@@ -92,12 +92,12 @@ function sudoku(data) {
 
   // Verifiy boxes
   for (let i = 0; i < slot; i++) {
-    data.forEach((val, e) => {
+    grid.forEach((val, e) => {
       side = val.slice(slot * i, slot * i + slot);
       temp = temp.concat(side);
 
       if ((e + 1) % slot == 0 && e > 0) {
-        for (let j = 1; j <= data.length; j++)
+        for (let j = 1; j <= grid.length; j++)
           if (temp.indexOf(j) < 0) valid = false;
         temp = [];
       }
@@ -105,3 +105,5 @@ function sudoku(data) {
   }
   return valid;
 }
+
+
