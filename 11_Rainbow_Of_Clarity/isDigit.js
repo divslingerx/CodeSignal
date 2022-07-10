@@ -20,7 +20,7 @@
 
 //Why a question this easy is in chapter 11 is beyond me but...
 
-function isDigit(symbol) {
+function solution(symbol) {
   return !isNaN(symbol);
 }
 
