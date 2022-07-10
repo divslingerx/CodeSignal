@@ -42,19 +42,13 @@
 
 // The number of years it would take to hit the threshold.
 
-function depositProfit(deposit, rate, threshold) {
-  var fraction = [];
-
-  fraction[1] = 1;
-  var year = 0;
-
-  while (deposit < fraction[1] * threshold) {
-    deposit *= rate + 100;
-    fraction[1] *= 100;
-    year++;
-  }
-
-  return year;
+function solution(deposit, rate, threshold) {
+    var years = 0;
+    while(deposit < threshold){
+        years++;
+        deposit += deposit*rate/100;
+    }
+    return years;
 }
 
 // Input:
