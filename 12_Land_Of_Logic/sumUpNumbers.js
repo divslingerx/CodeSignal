@@ -18,15 +18,9 @@
 
 // [output] integer
 
-const sumUpNumbers = inputString => {
-  const matched = inputString.match(/\d+/g);
-
-  if (!matched) {
-    return 0;
-  }
-
-  let results = matched.map(Number);
-  return results.reduce((a, b) => (a += b));
+function solution(inputString) {
+    const matched = inputString.match(/\d+/g)
+    return !matched ? 0 : matched.map(Number).reduce((a, b) => (a += b))
 };
 
 // Input:
