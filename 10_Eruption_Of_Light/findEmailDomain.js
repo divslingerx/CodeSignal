@@ -23,11 +23,9 @@
 
 // [JavaScript(ES6)] Syntax
 
-function findEmailDomain(address) {
-  const newAddress = address.split("").reverse();
-  const atSign = newAddress.indexOf("@");
-  const sub = newAddress.splice(0, atSign);
-  return sub.reverse().join("");
+function solution(address) {
+    const s =  address.replace(/[^A-z|.|@]*/, "")
+    return s.substring(s.lastIndexOf("@")+1)
 }
 
 // Input:
