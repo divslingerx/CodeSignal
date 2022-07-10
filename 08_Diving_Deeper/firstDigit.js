@@ -22,7 +22,7 @@
 // [output] char
 
 function firstDigit(str) {
-  return str.split("").filter(x => !isNaN(parseInt(x)))[0];
+  return str.split("").filter(x => !isNaN(parseInt(x, 10)))[0];
 }
 
 // Input:
