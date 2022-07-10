@@ -23,11 +23,13 @@
 
 //     [output] integer
 
-function absoluteValuesSumMinimization(a) {
-  var x = a[0],
-    temp = a.reduce((acc, curr) => {
-      return acc + Math.abs(curr - x);
-    }, 0);
+function solution(a) {
+  var x = a[0];
+
+  let temp = a.reduce((acc, curr) => {
+    return acc + Math.abs(curr - x);
+  }, 0);
+
   for (var i = 1; i < a.length; i++) {
     if (
       a.reduce((acc, curr) => {
@@ -42,6 +44,7 @@ function absoluteValuesSumMinimization(a) {
   }
   return x;
 }
+
 
 // Input:
 // a: [2, 4, 7]
