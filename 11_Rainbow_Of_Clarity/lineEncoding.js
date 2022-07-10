@@ -43,13 +43,11 @@ function lineEncoding(s) {
     //if last letter
     if (i == s.length - 1) arr.push(letArr);
   });
-  console.log("before map", arr);
 
   arr.forEach((acc, index) => {
     const letter = acc[0];
     const length = arr[index].length;
 
-    console.log(letter, length);
 
     if (length > 1) {
       encoded += `${length}${letter}`;
