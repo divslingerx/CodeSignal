@@ -21,7 +21,7 @@
 
 // [output] char
 
-function firstDigit(str) {
+function solution(str) {
   return str.split("").filter(x => !isNaN(parseInt(x, 10)))[0];
 }
 
