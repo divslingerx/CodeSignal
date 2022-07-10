@@ -33,12 +33,9 @@
 //     return "Hello, " + name;
 // }
 
-const messageFromBinaryCode = (code) => {
-  return code
+function solution(code) {
+ return code
     .match(/.{1,8}/g)
-    .reduce((acc, elm) => {
-      acc.push(String.fromCharCode(parseInt(elm, 2)));
-      return acc;
-    }, [])
+    .reduce((acc, elm) => acc.concat(String.fromCharCode(parseInt(elm, 2))), [])
     .join("");
 };
