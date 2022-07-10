@@ -21,46 +21,46 @@
 // [output] integer
 
 function chessKnight(cell) {
-  function chessKnight(cell) {
-    const xLookup = {
-      a: 1,
-      b: 2,
-      c: 3,
-      d: 4,
-      e: 5,
-      f: 6,
-      g: 7,
-      h: 8
-    };
+  const xLookup = {
+    a: 1,
+    b: 2,
+    c: 3,
+    d: 4,
+    e: 5,
+    f: 6,
+    g: 7,
+    h: 8,
+  };
 
-    const x = xLookup[cell[0]];
-    const y = Number(cell[1]);
+  const x = xLookup[cell[0]];
+  const y = Number(cell[1]);
 
-    const possibleMoves = [
-      [x + 1, y + 2],
-      [x + 2, y + 1],
-      [x + 2, y - 1],
-      [x + 1, y - 2],
-      [x - 1, y - 2],
-      [x - 2, y - 1],
-      [x - 2, y + 1],
-      [x - 1, y + 2]
-    ];
+  const possibleMoves = [
+    [x + 1, y + 2],
+    [x + 2, y + 1],
+    [x + 2, y - 1],
+    [x + 1, y - 2],
+    [x - 1, y - 2],
+    [x - 2, y - 1],
+    [x - 2, y + 1],
+    [x - 1, y + 2],
+  ];
 
-    const checkX = x => {
-      return x > 0 && x <= 8;
-    };
+  const checkX = (x) => {
+    return x > 0 && x <= 8;
+  };
 
-    const checkY = y => {
-      return y > 0 && y <= 8;
-    };
+  const checkY = (y) => {
+    return y > 0 && y <= 8;
+  };
 
-    return possibleMoves.filter(move => {
-      const [x, y] = move;
-      if (checkX(x) && checkY(y)) return true;
-    }).length;
-  }
+  return possibleMoves.filter((move) => {
+    const [x, y] = move;
+    if (checkX(x) && checkY(y)) return true;
+  }).length;
 }
+
+  
 
 // Input:
 // cell: "a1"
