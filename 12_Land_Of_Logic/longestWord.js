@@ -18,9 +18,9 @@
 
 // The longest word from text.It's guaranteed that there is a unique output.
 
-function longestWord(text) {
+function solution(text) {
   return text.match(/[A-Za-z]+/g).sort((a, b) => {
-    return b.length > a.length;
+    return b.length - a.length;
   })[0];
 }
 
