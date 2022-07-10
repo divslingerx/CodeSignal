@@ -23,31 +23,23 @@
 
 // [output] boolean
 
-function isBeautifulString(str) {
-  function count(char) {
-    let occurances = 0;
+function solution(str) {
+  //string must contain an a
+  if(!str.includes("a")) return false
+  return [...str]
+    .sort()
+    .join("")
+    .match(/(.)\1*/g)
+    .every((e, i, a) => {
+      const prev = a[i - 1];
+      //first elm
+      if (!prev) return true;
+    
+      const isAdjacentLetter = e.charCodeAt(0) - a[i - 1].charCodeAt(0) === 1
+      const isCorrectLength = e.length <= prev.length;
 
-    for (let letter of str) {
-      if (letter == char) occurances++;
-    }
-    return occurances;
-  }
-
-  function next(char) {
-    let charCode = char.charCodeAt();
-    let nextChar = String.fromCharCode(charCode + 1);
-    return nextChar;
-  }
-
-  let limit = 1e9;
-
-  for (let char = "a"; char <= "z"; char = next(char)) {
-    console.log(char);
-    let charCount = count(char);
-    if (charCount > limit) return false;
-    limit = charCount;
-  }
-  return true;
+      return isCorrectLength && isAdjacentLetter;
+    });
 }
 
 // Input:
