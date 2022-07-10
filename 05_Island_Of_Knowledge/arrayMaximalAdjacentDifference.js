@@ -19,24 +19,14 @@
 
 // The maximal absolute difference.
 
-function arrayMaximalAdjacentDifference(arr) {
-  var diff1 = 0,
-    diff2 = 0,
-    max = 0;
-
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i] >= max) {
-      max = arr[i];
-      diff1 = arr[i] - arr[i + 1];
-      diff2 = arr[i] - arr[i - 1];
+function solution(inputArray) {
+ var max = Math.abs(inputArray[1] - inputArray[0]);
+    for(var i=2; i < inputArray.length; i++) {
+        if(Math.abs(inputArray[i] - inputArray[i-1]) > max) {
+            max = Math.abs(inputArray[i] - inputArray[i-1]);
+        }
     }
-  }
-
-  if (diff1 > diff2) {
-    return diff1;
-  }
-
-  return diff2;
+    return max
 }
 
 // Input:
