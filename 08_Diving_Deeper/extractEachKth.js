@@ -28,9 +28,35 @@ function extractEachKth(inputArray, k) {
   return inputArray.filter((v, i) => (i + 1) % k !== 0);
 }
 
-// Input:
-// inputArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-// k: 3
+function runTests() {
+  const testCases = [
+    { inputArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], k: 3, expected: [1, 2, 4, 5, 7, 8, 10] },
+    { inputArray: [1, 2, 3, 4, 5], k: 1, expected: [] },
+    { inputArray: [1, 2, 3, 4, 5], k: 2, expected: [1, 3, 5] },
+    { inputArray: [1, 1, 1, 1, 1], k: 5, expected: [1, 1, 1, 1] },
+    { inputArray: [-1, -2, -3, -4, -5, -6], k: 2, expected: [-1, -3, -5] },
+    { inputArray: [0, 1, 2, 3, 4, 5, 6, 7], k: 4, expected: [0, 1, 2, 4, 5, 6] }
+  ];
 
-// Expected Output:
-// [1, 2, 4, 5, 7, 8, 10]
+  console.log('Testing extractEachKth...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ inputArray, k, expected }) => {
+    const result = extractEachKth(inputArray, k);
+    if (JSON.stringify(result) === JSON.stringify(expected)) {
+      console.log(`✓ [${inputArray.join(', ')}], k=${k} => [${result.join(', ')}]`);
+      passed++;
+    } else {
+      console.log(`✗ [${inputArray.join(', ')}], k=${k} => Expected [${expected.join(', ')}], got [${result.join(', ')}]`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}

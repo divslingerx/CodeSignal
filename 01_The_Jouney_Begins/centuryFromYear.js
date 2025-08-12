@@ -30,11 +30,42 @@
 // }
 
 function solution(year) {
-  if (year <= 100) {
-    return 1;
-  } else if (year % 10 == 0) {
-    return year / 100;
-  } else {
-    return parseInt(year / 100) + 1;
-  }
+  // Simpler one-liner using Math.ceil
+  return Math.ceil(year / 100);
+}
+
+function runTests() {
+  const testCases = [
+    { input: 1905, expected: 20 },
+    { input: 1700, expected: 17 },
+    { input: 1, expected: 1 },
+    { input: 100, expected: 1 },
+    { input: 101, expected: 2 },
+    { input: 200, expected: 2 },
+    { input: 2000, expected: 20 },
+    { input: 2001, expected: 21 },
+    { input: 2005, expected: 21 }
+  ];
+
+  console.log('Testing centuryFromYear...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = solution(input);
+    if (result === expected) {
+      console.log(`✓ Year ${input} => Century ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ Year ${input} => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
 }

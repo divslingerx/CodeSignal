@@ -29,12 +29,34 @@ function solution(inputArray, elemToReplace, substitutionElem) {
     return inputArray.map(elm => elm === elemToReplace ? substitutionElem : elm)
 }
 
-// inputArray: [1, 2, 1]
-// elemToReplace: 1
-// substitutionElem: 3
-// Output:
-// Run the code to see output
-// Expected Output:
-// [3, 2, 3]
-// Console Output:
-// Empty
+function runTests() {
+  const testCases = [
+    { inputArray: [1, 2, 1], elemToReplace: 1, substitutionElem: 3, expected: [3, 2, 3] },
+    { inputArray: [1, 2, 3, 4, 5], elemToReplace: 3, substitutionElem: 0, expected: [1, 2, 0, 4, 5] },
+    { inputArray: [1, 1, 1], elemToReplace: 1, substitutionElem: 2, expected: [2, 2, 2] },
+    { inputArray: [1, 2, 3], elemToReplace: 4, substitutionElem: 5, expected: [1, 2, 3] },
+    { inputArray: [0, 0, 0, 0], elemToReplace: 0, substitutionElem: 10, expected: [10, 10, 10, 10] }
+  ];
+
+  console.log('Testing solution...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ inputArray, elemToReplace, substitutionElem, expected }) => {
+    const result = solution(inputArray, elemToReplace, substitutionElem);
+    if (JSON.stringify(result) === JSON.stringify(expected)) {
+      console.log(`✓ [${inputArray.join(', ')}], replace ${elemToReplace} with ${substitutionElem} => [${result.join(', ')}]`);
+      passed++;
+    } else {
+      console.log(`✗ [${inputArray.join(', ')}], replace ${elemToReplace} with ${substitutionElem} => Expected [${expected.join(', ')}], got [${result.join(', ')}]`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}

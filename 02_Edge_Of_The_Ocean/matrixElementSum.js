@@ -59,44 +59,77 @@
 //     return "Hello, " + name;
 // }
 
-matrix = [[0, 1, 1, 2], [0, 5, 0, 0], [2, 0, 3, 3]];
-
 function matrixElementsSum(matrix) {
-  // Calculate the width and height of the Array
-  var w = matrix.length || 0;
-  var h = matrix[0] instanceof Array ? matrix[0].length : 0;
-  // In case it is a zero matrix return empty array.
-  if (h === 0 || w === 0) {
-    return [];
-  }
-
-  var i,
-    j,
-    t = [];
-  // Loop through every item in the outer array (height)
-  for (i = 0; i < h; i++) {
-    // Insert a new row (array)
-    t[i] = [];
-    // Loop through every item per item in outer array (width)
-    for (j = 0; j < w; j++) {
-      // Save transposed martix.
-      t[i][j] = matrix[j][i];
+  // Simpler approach: track haunted columns and sum valid rooms
+  const hauntedColumns = new Set();
+  let sum = 0;
+  
+  for (let row = 0; row < matrix.length; row++) {
+    for (let col = 0; col < matrix[row].length; col++) {
+      if (!hauntedColumns.has(col)) {
+        if (matrix[row][col] === 0) {
+          hauntedColumns.add(col);
+        } else {
+          sum += matrix[row][col];
+        }
+      }
     }
   }
-
-  // now that we have our floors as columns if we come across a 0 the rest of the rooms are will be zero and thus dont need to be there
-  for (var i = 0; i < t.length; i++) {
-    var index = t[i].indexOf(0);
-    if (index != -1) {
-      t[i].length = index;
-    }
-  }
-
-  //concat multi array to single array
-  var merged = [].concat.apply([], t);
-
-  // get sum of flattened array
-  return merged.reduce((acc, val) => acc + val, 0);
+  
+  return sum;
 }
 
-matrixElementsSum(matrix);
+function runTests() {
+  const testCases = [
+    { 
+      input: [[0, 1, 1, 2], [0, 5, 0, 0], [2, 0, 3, 3]], 
+      expected: 9 
+    },
+    { 
+      input: [[1, 1, 1, 0], [0, 5, 0, 1], [2, 1, 3, 10]], 
+      expected: 9 
+    },
+    { 
+      input: [[1, 1, 1], [2, 2, 2], [3, 3, 3]], 
+      expected: 18 
+    },
+    { 
+      input: [[0]], 
+      expected: 0 
+    },
+    { 
+      input: [[1, 0], [1, 5]], 
+      expected: 2 
+    },
+    { 
+      input: [[1], [5], [0], [2]], 
+      expected: 6 
+    },
+    { 
+      input: [[2, 0, 0, 0], [0, 0, 0, 0]], 
+      expected: 2 
+    }
+  ];
+
+  console.log('Testing matrixElementsSum...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = matrixElementsSum(input);
+    if (result === expected) {
+      console.log(`✓ Matrix with ${input.length} rows => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ Matrix with ${input.length} rows => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}

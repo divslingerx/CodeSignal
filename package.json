@@ -1,0 +1,15 @@
+{
+  "name": "codesignal-challenges",
+  "version": "1.0.0",
+  "description": "CodeSignal challenge solutions with tests",
+  "scripts": {
+    "test": "node runAllTests.js",
+    "test:watch": "nodemon runAllTests.js"
+  },
+  "keywords": ["codesignal", "algorithms", "javascript"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  }
+}

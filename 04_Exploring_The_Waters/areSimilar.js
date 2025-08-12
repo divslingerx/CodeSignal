@@ -44,9 +44,66 @@
 // true if a and b are similar, false otherwise.
 
 function solution(a, b) {
-    const ad = a.filter((v,i)=>v!=b[i])
-    const bd = b.filter((v,i)=>v!=a[i])
-    return ad.length == 0 || (ad.length == 2 && ad.join('') == bd.reverse().join(''))
+    // Find indices where arrays differ
+    const diffIndices = [];
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] !== b[i]) {
+            diffIndices.push(i);
+        }
+    }
+    
+    // If no differences, arrays are identical
+    if (diffIndices.length === 0) return true;
+    
+    // If exactly 2 differences, check if swapping makes them equal
+    if (diffIndices.length === 2) {
+        const [i, j] = diffIndices;
+        return a[i] === b[j] && a[j] === b[i];
+    }
+    
+    // More than 2 differences means not similar
+    return false;
+}
+
+function runTests() {
+  const testCases = [
+    { input: [[1, 2, 3], [1, 2, 3]], expected: true },
+    { input: [[1, 2, 3], [2, 1, 3]], expected: true },
+    { input: [[1, 2, 2], [2, 1, 1]], expected: false },
+    { input: [[1, 1, 4], [1, 2, 3]], expected: false },
+    { input: [[1, 2, 3], [1, 10, 2]], expected: false },
+    { input: [[832, 998, 148, 570, 533, 561, 894, 147, 455, 279], [832, 998, 148, 570, 533, 561, 455, 147, 894, 279]], expected: true },
+    { input: [[1, 4, 6, 3], [1, 3, 6, 4]], expected: true },
+    { input: [[1, 2, 3, 4], [4, 3, 2, 1]], expected: false },
+    { input: [[1], [1]], expected: true },
+    { input: [[1], [2]], expected: false },
+    { input: [[1, 2], [2, 1]], expected: true },
+    { input: [[1, 2], [1, 3]], expected: false },
+    { input: [[5, 5, 5], [5, 5, 5]], expected: true },
+    { input: [[1, 2, 3, 4, 5], [1, 2, 3, 5, 4]], expected: true }
+  ];
+
+  console.log('Testing areSimilar...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }, index) => {
+    const result = solution(input[0], input[1]);
+    if (result === expected) {
+      console.log(`✓ Test ${index + 1}: areSimilar(${JSON.stringify(input[0])}, ${JSON.stringify(input[1])}) => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ Test ${index + 1}: areSimilar(${JSON.stringify(input[0])}, ${JSON.stringify(input[1])}) => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
 }
 
 // Input:

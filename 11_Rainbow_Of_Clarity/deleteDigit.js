@@ -18,26 +18,48 @@
 // [output] integer
 
 const deleteDigit = n => {
-  let largest = 0;
-  const arr = n.toString().split("");
+  const digits = n.toString();
+  let maxResult = 0;
 
-  const cropArr = (arr, i) => arr.slice(i, i.length - 1);
+  // Try removing each digit and keep track of the maximum result
+  for (let i = 0; i < digits.length; i++) {
+    const newNumber = parseInt(digits.slice(0, i) + digits.slice(i + 1));
+    maxResult = Math.max(maxResult, newNumber);
+  }
 
-  arr.forEach((v, index, arr) => {
-    let na = [...arr];
-    let arr1 = na.splice(index, 1);
-    let arr2 = na;
-    let val = Number.parseInt(na.join(""));
-
-    if (val > largest) {
-      largest = val;
-    }
-  });
-  return largest;
+  return maxResult;
 };
 
-// Input:
-// n: 152
+function runTests() {
+  const testCases = [
+    { input: 152, expected: 52 },
+    { input: 1001, expected: 101 },
+    { input: 10, expected: 1 },
+    { input: 99, expected: 9 },
+    { input: 222219, expected: 22229 },
+    { input: 109, expected: 19 },
+    { input: 222250, expected: 22250 }
+  ];
 
-// Expected Output:
-// 52
+  console.log('Testing deleteDigit...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = deleteDigit(input);
+    if (result === expected) {
+      console.log(`✓ ${input} => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ ${input} => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}

@@ -24,11 +24,36 @@ function differentSymbolsNaive(s) {
   return new Set(s).size;
 }
 
-// Input:
-// s: "cabca"
-// Output:
-// Run the code to see output
-// Expected Output:
-// 3
-// Console Output:
-// Empty
+function runTests() {
+  const testCases = [
+    { input: "cabca", expected: 3 },
+    { input: "aaa", expected: 1 },
+    { input: "abc", expected: 3 },
+    { input: "abcdefg", expected: 7 },
+    { input: "abcabc", expected: 3 },
+    { input: "xyzxyz", expected: 3 },
+    { input: "programming", expected: 8 }
+  ];
+
+  console.log('Testing differentSymbolsNaive...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = differentSymbolsNaive(input);
+    if (result === expected) {
+      console.log(`✓ "${input}" => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ "${input}" => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}

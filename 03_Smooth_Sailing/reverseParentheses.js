@@ -27,3 +27,38 @@ function solution(inputString) {
     return inputString;
 }
 
+function runTests() {
+  const testCases = [
+    { input: "a(bc)de", expected: "acbde" },
+    { input: "a(bcdefghijkl(mno)p)q", expected: "apmnolkjihgfedcbq" },
+    { input: "co(de(fight)s)", expected: "cosfighted" },
+    { input: "(abc)d(efg)", expected: "cbadgfe" },
+    { input: "abcd", expected: "abcd" },
+    { input: "()", expected: "" },
+    { input: "(a)", expected: "a" },
+    { input: "((a))", expected: "a" }
+  ];
+
+  console.log('Testing solution...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = solution(input);
+    if (result === expected) {
+      console.log(`✓ "${input}" => "${result}"`);
+      passed++;
+    } else {
+      console.log(`✗ "${input}" => Expected "${expected}", got "${result}"`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}
+

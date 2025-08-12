@@ -21,17 +21,49 @@
 // The result string after replacing all of its characters.
 
 function alphabeticShift(input) {
-  var arr = [];
-  for (var i = 0; i < input.length; i++) {
-    console.log(input.charCodeAt(i));
-    if (input.charCodeAt(i) == 122 || input.charCodeAt(i) == 90) {
-      arr.push(97);
-    } else {
-      arr.push(input.charCodeAt(i) + 1);
-    }
-  }
+  // More concise using map and ternary operator
+  // Remove console.log and handle only lowercase as per constraints
+  return input
+    .split('')
+    .map(char => char === 'z' ? 'a' : String.fromCharCode(char.charCodeAt(0) + 1))
+    .join('');
+}
 
-  return String.fromCharCode.apply(null, arr);
+function runTests() {
+  const testCases = [
+    { input: "crazy", expected: "dsbaz" },
+    { input: "z", expected: "a" },
+    { input: "a", expected: "b" },
+    { input: "abc", expected: "bcd" },
+    { input: "xyz", expected: "yza" },
+    { input: "hello", expected: "ifmmp" },
+    { input: "world", expected: "xpsme" },
+    { input: "programming", expected: "qsphsbnnjoh" },
+    { input: "zebra", expected: "afcsb" },
+    { input: "example", expected: "fybnqmf" }
+  ];
+
+  console.log('Testing alphabeticShift...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }, index) => {
+    const result = alphabeticShift(input);
+    if (result === expected) {
+      console.log(`✓ Test ${index + 1}: alphabeticShift("${input}") => "${result}"`);
+      passed++;
+    } else {
+      console.log(`✗ Test ${index + 1}: alphabeticShift("${input}") => Expected "${expected}", got "${result}"`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
 }
 
 // Input:

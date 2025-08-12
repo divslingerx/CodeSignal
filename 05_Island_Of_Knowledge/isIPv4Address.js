@@ -39,8 +39,38 @@
 const solution = inputString =>
   /^((25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)(\.(?!$)|$)){4}$/.test(inputString);
 
-// Input:
-// inputString: "172.16.254.1"
+function runTests() {
+  const testCases = [
+    { input: "172.16.254.1", expected: true },
+    { input: "172.316.254.1", expected: false },
+    { input: ".254.255.0", expected: false },
+    { input: "1.1.1.1a", expected: false },
+    { input: "1", expected: false },
+    { input: "0.254.255.0", expected: true },
+    { input: "192.168.1.0", expected: true },
+    { input: "192.168.1.00", expected: false },
+    { input: "192.168@1.1", expected: false }
+  ];
 
-// Expected Output:
-// true
+  console.log('Testing solution...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = solution(input);
+    if (result === expected) {
+      console.log(`✓ "${input}" => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ "${input}" => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}

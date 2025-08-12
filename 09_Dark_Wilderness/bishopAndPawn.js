@@ -27,15 +27,53 @@
 // true if the bishop can capture the pawn, false otherwise.
 
 function bishopAndPawn(bishop, pawn) {
-  var x1 = bishop.charCodeAt(0);
-  var y1 = bishop.charCodeAt(1);
-  var x2 = pawn.charCodeAt(0);
-  var y2 = pawn.charCodeAt(1);
+  const x1 = bishop.charCodeAt(0);
+  const y1 = bishop.charCodeAt(1);
+  const x2 = pawn.charCodeAt(0);
+  const y2 = pawn.charCodeAt(1);
 
-  if (x1 + y1 == x2 + y2 || x1 - y1 == x2 - y2) {
-    return true;
-  }
-  return false;
+  // Bishop moves diagonally: positions are on same diagonal if
+  // sum or difference of coordinates are equal
+  return (x1 + y1 === x2 + y2) || (x1 - y1 === x2 - y2);
+}
+
+function runTests() {
+  const testCases = [
+    { input: ["a1", "c3"], expected: true },
+    { input: ["h1", "h3"], expected: false },
+    { input: ["a5", "c3"], expected: true },
+    { input: ["g1", "f2"], expected: true },
+    { input: ["e7", "d6"], expected: true },
+    { input: ["e7", "a3"], expected: true },
+    { input: ["d5", "e4"], expected: true },
+    { input: ["a1", "a2"], expected: false },
+    { input: ["h8", "a1"], expected: true },
+    { input: ["c4", "d5"], expected: true },
+    { input: ["b2", "c4"], expected: false },
+    { input: ["f6", "e7"], expected: true }
+  ];
+
+  console.log('Testing bishopAndPawn...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }, index) => {
+    const result = bishopAndPawn(input[0], input[1]);
+    if (result === expected) {
+      console.log(`✓ Test ${index + 1}: bishopAndPawn("${input[0]}", "${input[1]}") => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ Test ${index + 1}: bishopAndPawn("${input[0]}", "${input[1]}") => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
 }
 
 // Input:

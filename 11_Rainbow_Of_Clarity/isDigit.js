@@ -24,7 +24,37 @@ function solution(symbol) {
   return !isNaN(symbol);
 }
 
-// symbol: "0"
+function runTests() {
+  const testCases = [
+    { input: "0", expected: true },
+    { input: "-", expected: false },
+    { input: "5", expected: true },
+    { input: "9", expected: true },
+    { input: "a", expected: false },
+    { input: " ", expected: true },
+    { input: "1", expected: true },
+    { input: "#", expected: false }
+  ];
 
-// Expected Output:
-// true
+  console.log('Testing solution...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = solution(input);
+    if (result === expected) {
+      console.log(`✓ "${input}" => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ "${input}" => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}

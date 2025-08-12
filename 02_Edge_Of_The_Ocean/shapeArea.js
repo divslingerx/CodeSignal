@@ -32,3 +32,37 @@
 function shapeArea(n) {
   return 1 + 2 * n * (n - 1);
 }
+
+function runTests() {
+  const testCases = [
+    { input: 2, expected: 5 },
+    { input: 3, expected: 13 },
+    { input: 1, expected: 1 },
+    { input: 4, expected: 25 },
+    { input: 5, expected: 41 },
+    { input: 7, expected: 85 },
+    { input: 8, expected: 113 }
+  ];
+
+  console.log('Testing shapeArea...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = shapeArea(input);
+    if (result === expected) {
+      console.log(`✓ shapeArea(${input}) => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ shapeArea(${input}) => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}

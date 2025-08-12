@@ -24,8 +24,45 @@
 // [JavaScript(ES6)] Syntax
 
 function solution(address) {
-    const s =  address.replace(/[^A-z|.|@]*/, "")
-    return s.substring(s.lastIndexOf("@")+1)
+    // Simply find the last @ symbol and return everything after it
+    return address.substring(address.lastIndexOf("@") + 1);
+}
+
+function runTests() {
+  const testCases = [
+    { input: "prettyandsimple@example.com", expected: "example.com" },
+    { input: "<>[]:,;@\"!#$ %&* +-/=?^_{}| ~.a\"@example.org", expected: "example.org" },
+    { input: "user@domain.co.uk", expected: "domain.co.uk" },
+    { input: "test.email@subdomain.example.com", expected: "subdomain.example.com" },
+    { input: "a@b.c", expected: "b.c" },
+    { input: "complex@address@with@many@ats@final.domain", expected: "final.domain" },
+    { input: "simple@test.org", expected: "test.org" },
+    { input: "user@localhost", expected: "localhost" },
+    { input: "email@domain-name.com", expected: "domain-name.com" },
+    { input: "name.lastname@company.co", expected: "company.co" }
+  ];
+
+  console.log('Testing findEmailDomain...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }, index) => {
+    const result = solution(input);
+    if (result === expected) {
+      console.log(`✓ Test ${index + 1}: findEmailDomain("${input}") => "${result}"`);
+      passed++;
+    } else {
+      console.log(`✗ Test ${index + 1}: findEmailDomain("${input}") => Expected "${expected}", got "${result}"`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
 }
 
 // Input:

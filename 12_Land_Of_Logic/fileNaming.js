@@ -29,13 +29,51 @@
 // }
 
 const fileNaming = (names) => {
-  const used = {};
+  const used = new Set();
+  
   return names.map((name) => {
     let newName = name;
-    while (used[newName]) {
-      newName = `${name}(${used[name]++})`;
+    let counter = 1;
+    
+    // Find the next available name
+    while (used.has(newName)) {
+      newName = `${name}(${counter})`;
+      counter++;
     }
-    used[newName] = 1;
+    
+    used.add(newName);
     return newName;
   });
 };
+
+function runTests() {
+  const testCases = [
+    { input: ["doc", "doc", "image", "doc(1)", "doc"], expected: ["doc", "doc(1)", "image", "doc(1)(1)", "doc(2)"] },
+    { input: ["a", "b", "cd"], expected: ["a", "b", "cd"] },
+    { input: ["test", "test", "test", "test"], expected: ["test", "test(1)", "test(2)", "test(3)"] },
+    { input: ["name"], expected: ["name"] },
+    { input: ["file", "file(1)", "image", "file(1)", "file"], expected: ["file", "file(1)", "image", "file(1)(1)", "file(2)"] }
+  ];
+
+  console.log('Testing fileNaming...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = fileNaming(input);
+    if (JSON.stringify(result) === JSON.stringify(expected)) {
+      console.log(`✓ [${input.join(', ')}] => [${result.join(', ')}]`);
+      passed++;
+    } else {
+      console.log(`✗ [${input.join(', ')}] => Expected [${expected.join(', ')}], got [${result.join(', ')}]`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}

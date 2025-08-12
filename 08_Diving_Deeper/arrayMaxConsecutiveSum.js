@@ -50,9 +50,36 @@ function arrayMaxConsecutiveSum(inputArray, k) {
   return bestSum;
 }
 
-// Input:
-// inputArray: [2, 3, 5, 1, 6]
-// k: 2
+function runTests() {
+  const testCases = [
+    { inputArray: [2, 3, 5, 1, 6], k: 2, expected: 8 },
+    { inputArray: [2, 4, 10, 1], k: 2, expected: 14 },
+    { inputArray: [1, 3, 2, 6, -1, 4, 1, 8, 2], k: 5, expected: 18 },
+    { inputArray: [5, 5, 5, 5, 5], k: 3, expected: 15 },
+    { inputArray: [10], k: 1, expected: 10 },
+    { inputArray: [1, 2, 3, 4, 5], k: 1, expected: 5 },
+    { inputArray: [100, 200, 300], k: 3, expected: 600 }
+  ];
 
-// Expected Output:
-// 8
+  console.log('Testing arrayMaxConsecutiveSum...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ inputArray, k, expected }) => {
+    const result = arrayMaxConsecutiveSum(inputArray, k);
+    if (result === expected) {
+      console.log(`✓ [${inputArray.join(', ')}], k=${k} => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ [${inputArray.join(', ')}], k=${k} => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}

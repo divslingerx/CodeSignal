@@ -35,19 +35,53 @@
 // The number of days that it will take for the plant to reach / pass desiredHeight(including the last day in the total count).
 
 function growingPlant(upSpeed, downSpeed, desiredHeight) {
-  const daily = upSpeed - downSpeed;
-  let height = 0;
-  let days = 0;
-
-  while (height < desiredHeight) {
-    days++;
-    height += upSpeed;
-    if (height >= desiredHeight) {
-      return days;
-    } else {
-      height -= downSpeed;
-    }
+  // Mathematical approach: calculate days needed more efficiently
+  // On the last day, plant doesn't shrink, so we need to account for this
+  if (desiredHeight <= upSpeed) {
+    return 1; // Can reach in first day
   }
+  
+  const netDailyGrowth = upSpeed - downSpeed;
+  const heightNeededBeforeLastDay = desiredHeight - upSpeed;
+  
+  return Math.ceil(heightNeededBeforeLastDay / netDailyGrowth) + 1;
+}
+
+function runTests() {
+  const testCases = [
+    { input: [100, 10, 910], expected: 10 },
+    { input: [10, 9, 4], expected: 1 },
+    { input: [5, 2, 7], expected: 2 },
+    { input: [7, 3, 43], expected: 10 },
+    { input: [6, 5, 10], expected: 5 },
+    { input: [100, 10, 910], expected: 10 },
+    { input: [100, 99, 200], expected: 101 },
+    { input: [4, 1, 15], expected: 5 },
+    { input: [9, 8, 45], expected: 37 },
+    { input: [20, 5, 85], expected: 6 }
+  ];
+
+  console.log('Testing growingPlant...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }, index) => {
+    const result = growingPlant(input[0], input[1], input[2]);
+    if (result === expected) {
+      console.log(`✓ Test ${index + 1}: growingPlant(${input[0]}, ${input[1]}, ${input[2]}) => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ Test ${index + 1}: growingPlant(${input[0]}, ${input[1]}, ${input[2]}) => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
 }
 
 // Input:

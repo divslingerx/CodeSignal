@@ -45,21 +45,75 @@
 // A blurred image represented as integers, obtained through the process in the description.
 
 function boxBlur(image) {
-  var answer = [];
-  for (var x = 1; x < image.length - 1; x++) {
-    var line = [];
-    for (var y = 1; y < image[0].length - 1; y++) {
-      var sum = 0;
-      for (var dx = -1; dx <= 1; dx++) {
-        for (var dy = -1; dy <= 1; dy++) {
+  const result = [];
+  
+  // Process each valid center pixel (excluding border)
+  for (let x = 1; x < image.length - 1; x++) {
+    const row = [];
+    for (let y = 1; y < image[0].length - 1; y++) {
+      let sum = 0;
+      
+      // Sum the 3x3 square around current pixel
+      for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
           sum += image[x + dx][y + dy];
         }
       }
-      line.push(Math.floor(sum / 9));
+      
+      row.push(Math.floor(sum / 9));
     }
-    answer.push(line);
+    result.push(row);
   }
-  return answer;
+  
+  return result;
+}
+
+function runTests() {
+  const testCases = [
+    { 
+      input: [[1,1,1], [1,7,1], [1,1,1]], 
+      expected: [[1]] 
+    },
+    { 
+      input: [[7,4,0,1], [5,6,2,2], [6,10,7,8], [1,4,2,0]], 
+      expected: [[5,4], [4,4]] 
+    },
+    { 
+      input: [[36,0,18,9], [27,54,9,0], [81,63,72,45]], 
+      expected: [[40,30]] 
+    },
+    { 
+      input: [[7,4,0,1,4], [5,6,2,2,0], [6,10,7,8,1], [1,4,2,0,2]], 
+      expected: [[5,4,2], [4,4,2]] 
+    },
+    { 
+      input: [[1,1,1,1,1], [1,1,1,1,1], [1,1,1,1,1]], 
+      expected: [[1,1,1]] 
+    }
+  ];
+
+  console.log('Testing boxBlur...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }, index) => {
+    const result = boxBlur(input);
+    const isEqual = JSON.stringify(result) === JSON.stringify(expected);
+    if (isEqual) {
+      console.log(`✓ Test ${index + 1}: boxBlur passed`);
+      passed++;
+    } else {
+      console.log(`✗ Test ${index + 1}: boxBlur => Expected ${JSON.stringify(expected)}, got ${JSON.stringify(result)}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
 }
 
 // Input:

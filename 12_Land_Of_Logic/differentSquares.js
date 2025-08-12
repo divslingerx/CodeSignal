@@ -54,11 +54,75 @@
 
 
 function solution(matrix) {
-    let s = new Set();
-    for(let i = 0;i < matrix.length - 1;i++){
-        for(let j = 0;j < matrix[0].length - 1;j++){
-            s.add('' + matrix[i][j] + matrix[i+1][j] + matrix[i][j+1] + matrix[i+1][j+1]);
+    // Current approach is already efficient using Set for uniqueness
+    // Small optimization: use template literals for better readability
+    const squares = new Set();
+    
+    for(let i = 0; i < matrix.length - 1; i++){
+        for(let j = 0; j < matrix[0].length - 1; j++){
+            // Using template literal is cleaner, though performance is similar
+            squares.add(`${matrix[i][j]}${matrix[i+1][j]}${matrix[i][j+1]}${matrix[i+1][j+1]}`);
         }
     }
-    return s.size;
+    
+    return squares.size;
+}
+
+function runTests() {
+  const testCases = [
+    { 
+      input: [[1, 2, 1], [2, 2, 2], [2, 2, 2], [1, 2, 3], [2, 2, 1]], 
+      expected: 6 
+    },
+    { 
+      input: [[9, 9, 9, 9, 9], [9, 9, 9, 9, 9], [9, 9, 9, 9, 9], [9, 9, 9, 9, 9]], 
+      expected: 1 
+    },
+    { 
+      input: [[3]], 
+      expected: 0 
+    },
+    { 
+      input: [[1, 2], [3, 4]], 
+      expected: 1 
+    },
+    { 
+      input: [[1, 1, 1], [1, 1, 1], [1, 1, 1]], 
+      expected: 1 
+    },
+    { 
+      input: [[1, 2, 3], [4, 5, 6], [7, 8, 9]], 
+      expected: 4 
+    },
+    { 
+      input: [[0, 1], [1, 0]], 
+      expected: 1 
+    },
+    { 
+      input: [[5, 5, 5, 6], [5, 5, 5, 6], [6, 6, 6, 5], [6, 6, 6, 5]], 
+      expected: 6 
+    }
+  ];
+
+  console.log('Testing differentSquares...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }, index) => {
+    const result = solution(input);
+    if (result === expected) {
+      console.log(`✓ Test ${index + 1}: differentSquares passed`);
+      passed++;
+    } else {
+      console.log(`✗ Test ${index + 1}: differentSquares => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
 }

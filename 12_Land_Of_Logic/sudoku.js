@@ -59,51 +59,105 @@
 // }
 
 function solution(grid) {
-  let valid = true;
-  let temp = [];
-
-  let side;
-  let slot;
-
-  // Check wrong size
-  if (grid[0].length !== grid.length) valid = false;
-
-  // slot*slot
-  slot = Math.sqrt(grid.length);
-
-  // Verifiy horizontal
-  grid.forEach((arr) => {
-    valid =
-      valid &&
-      arr.every((val, i) => {
-        return arr.indexOf(i + 1) > -1;
-      });
-  });
-
-  // Verifiy vertical lines
-  grid.forEach((arr, i) => {
-    temp = grid.map((val) => val[i]);
-    valid =
-      valid &&
-      arr.every((val, i) => {
-        return temp.indexOf(i + 1) > -1;
-      });
-  });
-
-  // Verifiy boxes
-  for (let i = 0; i < slot; i++) {
-    grid.forEach((val, e) => {
-      side = val.slice(slot * i, slot * i + slot);
-      temp = temp.concat(side);
-
-      if ((e + 1) % slot == 0 && e > 0) {
-        for (let j = 1; j <= grid.length; j++)
-          if (temp.indexOf(j) < 0) valid = false;
-        temp = [];
-      }
-    });
+  // More efficient approach using Set for O(1) lookups instead of indexOf O(n)
+  // Early return on failures instead of continuing checks
+  
+  const n = 9;
+  
+  // Check rows
+  for (let row of grid) {
+    if (new Set(row).size !== n) return false;
   }
-  return valid;
+  
+  // Check columns
+  for (let col = 0; col < n; col++) {
+    const column = new Set();
+    for (let row = 0; row < n; row++) {
+      column.add(grid[row][col]);
+    }
+    if (column.size !== n) return false;
+  }
+  
+  // Check 3x3 boxes
+  for (let boxRow = 0; boxRow < 3; boxRow++) {
+    for (let boxCol = 0; boxCol < 3; boxCol++) {
+      const box = new Set();
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          box.add(grid[boxRow * 3 + i][boxCol * 3 + j]);
+        }
+      }
+      if (box.size !== n) return false;
+    }
+  }
+  
+  return true;
+}
+
+function runTests() {
+  const validGrid = [
+    [1, 3, 2, 5, 4, 6, 9, 8, 7],
+    [4, 6, 5, 8, 7, 9, 3, 2, 1],
+    [7, 9, 8, 2, 1, 3, 6, 5, 4],
+    [9, 2, 1, 4, 3, 5, 8, 7, 6],
+    [3, 5, 4, 7, 6, 8, 2, 1, 9],
+    [6, 8, 7, 1, 9, 2, 5, 4, 3],
+    [5, 7, 6, 9, 8, 1, 4, 3, 2],
+    [2, 4, 3, 6, 5, 7, 1, 9, 8],
+    [8, 1, 9, 3, 2, 4, 7, 6, 5]
+  ];
+  
+  const invalidGrid = [
+    [1, 3, 2, 5, 4, 6, 9, 2, 7],
+    [4, 6, 5, 8, 7, 9, 3, 8, 1],
+    [7, 9, 8, 2, 1, 3, 6, 5, 4],
+    [9, 2, 1, 4, 3, 5, 8, 7, 6],
+    [3, 5, 4, 7, 6, 8, 2, 1, 9],
+    [6, 8, 7, 1, 9, 2, 5, 4, 3],
+    [5, 7, 6, 9, 8, 1, 4, 3, 2],
+    [2, 4, 3, 6, 5, 7, 1, 9, 8],
+    [8, 1, 9, 3, 2, 4, 7, 6, 5]
+  ];
+  
+  const duplicateRowGrid = [
+    [1, 1, 2, 5, 4, 6, 9, 8, 7],
+    [4, 6, 5, 8, 7, 9, 3, 2, 1],
+    [7, 9, 8, 2, 1, 3, 6, 5, 4],
+    [9, 2, 1, 4, 3, 5, 8, 7, 6],
+    [3, 5, 4, 7, 6, 8, 2, 1, 9],
+    [6, 8, 7, 1, 9, 2, 5, 4, 3],
+    [5, 7, 6, 9, 8, 1, 4, 3, 2],
+    [2, 4, 3, 6, 5, 7, 1, 9, 8],
+    [8, 3, 9, 3, 2, 4, 7, 6, 5]
+  ];
+  
+  const testCases = [
+    { input: validGrid, expected: true },
+    { input: invalidGrid, expected: false },
+    { input: duplicateRowGrid, expected: false }
+  ];
+
+  console.log('Testing sudoku...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }, index) => {
+    const result = solution(input);
+    if (result === expected) {
+      console.log(`✓ Test ${index + 1}: sudoku => ${result} (${expected ? 'valid' : 'invalid'} grid)`);
+      passed++;
+    } else {
+      console.log(`✗ Test ${index + 1}: sudoku => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
 }
 
 

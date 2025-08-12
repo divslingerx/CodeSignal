@@ -30,8 +30,37 @@ const isMAC48Address = inputString => {
   return regex.test(inputString);
 };
 
-// Input:
-// inputString: "00-1B-63-84-45-E6"
+function runTests() {
+  const testCases = [
+    { input: "00-1B-63-84-45-E6", expected: true },
+    { input: "Z1-1B-63-84-45-E6", expected: false },
+    { input: "not a MAC-48 address", expected: false },
+    { input: "FF-FF-FF-FF-FF-FF", expected: true },
+    { input: "00:1B:63:84:45:E6", expected: true },
+    { input: "02-03-04-05-06-07-08", expected: false },
+    { input: "02-03-04-05-06", expected: false },
+    { input: "G2-04-12-34-45-AB", expected: false }
+  ];
 
-// Expected Output:
-// true
+  console.log('Testing isMAC48Address...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = isMAC48Address(input);
+    if (result === expected) {
+      console.log(`✓ "${input}" => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ "${input}" => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}

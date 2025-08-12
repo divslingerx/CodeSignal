@@ -20,10 +20,6 @@
 //     [output] array.integer
 
 
-  // Input:
-  // a: [50, 60, 60, 45, 70]
-  // [180, 105]
-
 function solution(a) {
   return a.reduce(
     (acc, curr, idx) => {
@@ -32,4 +28,37 @@ function solution(a) {
     },
     [0, 0]
   );
+}
+
+function runTests() {
+  const testCases = [
+    { input: [50, 60, 60, 45, 70], expected: [180, 105] },
+    { input: [100], expected: [100, 0] },
+    { input: [80], expected: [80, 0] },
+    { input: [100, 50], expected: [100, 50] },
+    { input: [100, 50, 50, 100], expected: [150, 150] },
+    { input: [100, 51, 50, 100], expected: [150, 151] }
+  ];
+
+  console.log('Testing solution...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = solution(input);
+    if (JSON.stringify(result) === JSON.stringify(expected)) {
+      console.log(`✓ [${input.join(', ')}] => [${result.join(', ')}]`);
+      passed++;
+    } else {
+      console.log(`✗ [${input.join(', ')}] => Expected [${expected.join(', ')}], got [${result.join(', ')}]`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
 }

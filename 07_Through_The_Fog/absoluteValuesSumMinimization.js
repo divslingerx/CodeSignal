@@ -24,27 +24,48 @@
 //     [output] integer
 
 function solution(a) {
-  var x = a[0];
-
-  let temp = a.reduce((acc, curr) => {
-    return acc + Math.abs(curr - x);
-  }, 0);
-
-  for (var i = 1; i < a.length; i++) {
-    if (
-      a.reduce((acc, curr) => {
-        return acc + Math.abs(curr - a[i]);
-      }, 0) < temp
-    ) {
-      temp = a.reduce((acc, curr) => {
-        return acc + Math.abs(curr - a[i]);
-      }, 0);
-      x = a[i];
-    }
-  }
-  return x;
+  // The median minimizes sum of absolute deviations
+  // For even length, choose the smaller of two middle elements (per problem requirements)
+  const midIndex = Math.floor((a.length - 1) / 2);
+  return a[midIndex];
 }
 
+function runTests() {
+  const testCases = [
+    { input: [2, 4, 7], expected: 4 },
+    { input: [1, 1, 3, 4], expected: 1 },
+    { input: [23], expected: 23 },
+    { input: [-10, -10, -10, -10, -10, -9, -9, -9, -8, -8, -7, -6, -5, -4, -3, -1, 0, 0, 0, 0], expected: -8 },
+    { input: [2, 4, 6, 6, 7, 8], expected: 6 },
+    { input: [-4, -1], expected: -4 },
+    { input: [0, 7, 9], expected: 7 },
+    { input: [-1, 3, 5, 7], expected: 3 },
+    { input: [1, 2, 3, 4, 5], expected: 3 },
+    { input: [10, 11, 12, 13], expected: 11 }
+  ];
+
+  console.log('Testing absoluteValuesSumMinimization...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }, index) => {
+    const result = solution(input);
+    if (result === expected) {
+      console.log(`✓ Test ${index + 1}: absoluteValuesSumMinimization(${JSON.stringify(input)}) => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ Test ${index + 1}: absoluteValuesSumMinimization(${JSON.stringify(input)}) => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}
 
 // Input:
 // a: [2, 4, 7]

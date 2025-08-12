@@ -26,41 +26,40 @@
 // Encoded version of s.
 
 function lineEncoding(s) {
-  let arr = [];
-  let letArr = [];
-  let last = "";
-  let encoded = "";
-
-  s.split("").forEach((letter, i) => {
-    if (!letArr.length || letter === letArr[letArr.length - 1])
-      letArr.push(letter);
-
-    if (letter !== letArr[letArr.length - 1]) {
-      arr.push(letArr);
-      letArr = [letter];
-    }
-
-    //if last letter
-    if (i == s.length - 1) arr.push(letArr);
-  });
-
-  arr.forEach((acc, index) => {
-    const letter = acc[0];
-    const length = arr[index].length;
-
-
-    if (length > 1) {
-      encoded += `${length}${letter}`;
-    } else {
-      encoded += `${letter}`;
-    }
-  });
-
-  return encoded;
+  // Use regex to find consecutive identical characters
+  return s.replace(/(.)\1+/g, (match, char) => match.length + char);
 }
 
-// Input:
-// s: "aabbbc"
+function runTests() {
+  const testCases = [
+    { input: "aabbbc", expected: "2a3bc" },
+    { input: "abbcabb", expected: "a2bca2b" },
+    { input: "abcd", expected: "abcd" },
+    { input: "aaaa", expected: "4a" },
+    { input: "aabcc", expected: "2ab2c" },
+    { input: "wwwwwwwww", expected: "9w" },
+    { input: "bccccccccc", expected: "b9c" }
+  ];
 
-// Expected Output:
-// "2a3bc"
+  console.log('Testing lineEncoding...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = lineEncoding(input);
+    if (result === expected) {
+      console.log(`✓ "${input}" => "${result}"`);
+      passed++;
+    } else {
+      console.log(`✗ "${input}" => Expected "${expected}", got "${result}"`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}

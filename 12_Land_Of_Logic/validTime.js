@@ -27,12 +27,37 @@ function validTime(time) {
   return isBetween(hr, 0, 23) && isBetween(min, 0, 59);
 }
 
-// Input:
-// time: "13:58"
-// Output:
-// true
+function runTests() {
+  const testCases = [
+    { input: "13:58", expected: true },
+    { input: "25:51", expected: false },
+    { input: "02:76", expected: false },
+    { input: "00:00", expected: true },
+    { input: "23:59", expected: true },
+    { input: "24:00", expected: false },
+    { input: "12:60", expected: false },
+    { input: "06:30", expected: true }
+  ];
 
-// Input:
-// time: "25:51"
-// Output:
-// false
+  console.log('Testing validTime...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = validTime(input);
+    if (result === expected) {
+      console.log(`✓ "${input}" => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ "${input}" => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}

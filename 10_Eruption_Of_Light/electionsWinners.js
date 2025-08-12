@@ -39,9 +39,53 @@
 
 
 function solution(votes, k) {
-  var max = Math.max(...votes);
-  var numOfMax = votes.filter(v => v === max).length;
-  return votes.reduce((acc, v) => acc + (v === max && numOfMax === 1 || v + k > max ? 1 : 0), 0);
+  const max = Math.max(...votes);
+  const numOfMax = votes.filter(v => v === max).length;
+  
+  return votes.reduce((count, currentVotes) => {
+    // A candidate can win if:
+    // 1. They already have max votes AND are the only one with max votes, OR
+    // 2. They can get more than current max with remaining votes
+    const canWin = (currentVotes === max && numOfMax === 1) || (currentVotes + k > max);
+    return count + (canWin ? 1 : 0);
+  }, 0);
+}
+
+function runTests() {
+  const testCases = [
+    { input: [[2, 3, 5, 2], 3], expected: 2 },
+    { input: [[1, 3, 3, 1, 1], 0], expected: 0 },
+    { input: [[5, 1, 3, 4, 1], 0], expected: 1 },
+    { input: [[1, 1, 1, 1], 1], expected: 4 },
+    { input: [[1, 1, 1, 1], 0], expected: 0 },
+    { input: [[3, 1, 1, 3, 1], 2], expected: 2 },
+    { input: [[10, 10, 10, 10], 1], expected: 4 },
+    { input: [[5, 1, 3, 4, 1], 2], expected: 2 },
+    { input: [[1, 3, 3, 1, 1], 2], expected: 2 },
+    { input: [[13, 16, 16, 15, 3], 1], expected: 2 }
+  ];
+
+  console.log('Testing electionsWinners...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }, index) => {
+    const result = solution(input[0], input[1]);
+    if (result === expected) {
+      console.log(`✓ Test ${index + 1}: electionsWinners(${JSON.stringify(input[0])}, ${input[1]}) => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ Test ${index + 1}: electionsWinners(${JSON.stringify(input[0])}, ${input[1]}) => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
 }
 
 // Input:

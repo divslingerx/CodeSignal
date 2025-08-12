@@ -24,8 +24,56 @@
 // [output] integer
 
 function solution(n) {
-   if (n<10) return 0;
-    return 1 + solution(Number(String(n).split('').map(Number).reduce((a,b)=>a+b)));
+    if (n < 10) return 0;
+    
+    // More efficient digit sum calculation
+    let digitSum = 0;
+    let temp = n;
+    while (temp > 0) {
+        digitSum += temp % 10;
+        temp = Math.floor(temp / 10);
+    }
+    
+    return 1 + solution(digitSum);
+}
+
+function runTests() {
+  const testCases = [
+    { input: 5, expected: 0 },
+    { input: 100, expected: 1 },
+    { input: 91, expected: 2 },
+    { input: 99, expected: 2 },
+    { input: 123, expected: 1 },
+    { input: 999, expected: 2 },
+    { input: 89, expected: 2 },
+    { input: 73, expected: 2 },
+    { input: 777, expected: 2 },
+    { input: 25, expected: 1 },
+    { input: 9999, expected: 2 },
+    { input: 10, expected: 1 }
+  ];
+
+  console.log('Testing digitDegree...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }, index) => {
+    const result = solution(input);
+    if (result === expected) {
+      console.log(`✓ Test ${index + 1}: digitDegree(${input}) => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ Test ${index + 1}: digitDegree(${input}) => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
 }
 
 // Input:

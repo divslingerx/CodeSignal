@@ -21,49 +21,57 @@
 // [output] integer
 
 function chessKnight(cell) {
-  const xLookup = {
-    a: 1,
-    b: 2,
-    c: 3,
-    d: 4,
-    e: 5,
-    f: 6,
-    g: 7,
-    h: 8,
-  };
+  // Convert chess notation to coordinates (0-based)
+  const x = cell.charCodeAt(0) - 97; // 'a' = 0, 'b' = 1, etc.
+  const y = parseInt(cell[1]) - 1;   // '1' = 0, '2' = 1, etc.
 
-  const x = xLookup[cell[0]];
-  const y = Number(cell[1]);
-
-  const possibleMoves = [
-    [x + 1, y + 2],
-    [x + 2, y + 1],
-    [x + 2, y - 1],
-    [x + 1, y - 2],
-    [x - 1, y - 2],
-    [x - 2, y - 1],
-    [x - 2, y + 1],
-    [x - 1, y + 2],
+  // All possible knight moves (L-shaped)
+  const knightMoves = [
+    [1, 2], [2, 1], [2, -1], [1, -2],
+    [-1, -2], [-2, -1], [-2, 1], [-1, 2]
   ];
 
-  const checkX = (x) => {
-    return x > 0 && x <= 8;
-  };
-
-  const checkY = (y) => {
-    return y > 0 && y <= 8;
-  };
-
-  return possibleMoves.filter((move) => {
-    const [x, y] = move;
-    if (checkX(x) && checkY(y)) return true;
+  // Count valid moves (within board boundaries)
+  return knightMoves.filter(([dx, dy]) => {
+    const newX = x + dx;
+    const newY = y + dy;
+    return newX >= 0 && newX < 8 && newY >= 0 && newY < 8;
   }).length;
 }
 
   
 
-// Input:
-// cell: "a1"
+function runTests() {
+  const testCases = [
+    { input: "a1", expected: 2 },
+    { input: "c2", expected: 6 },
+    { input: "d4", expected: 8 },
+    { input: "a8", expected: 2 },
+    { input: "h1", expected: 2 },
+    { input: "h8", expected: 2 },
+    { input: "e5", expected: 8 },
+    { input: "b1", expected: 3 }
+  ];
 
-// Expected Output:
-// 2
+  console.log('Testing chessKnight...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = chessKnight(input);
+    if (result === expected) {
+      console.log(`✓ "${input}" => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ "${input}" => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
+}

@@ -32,11 +32,56 @@
 // }
 
 function solution(inputString) {
-  return (
-    inputString ===
-    inputString
-      .split("")
-      .reverse()
-      .join("")
-  );
+  // Two-pointer approach is more efficient for large strings
+  // Avoids creating new array and string copies
+  let left = 0;
+  let right = inputString.length - 1;
+  
+  while (left < right) {
+    if (inputString[left] !== inputString[right]) {
+      return false;
+    }
+    left++;
+    right--;
+  }
+  
+  return true;
+}
+
+function runTests() {
+  const testCases = [
+    { input: "aabaa", expected: true },
+    { input: "abac", expected: false },
+    { input: "a", expected: true },
+    { input: "racecar", expected: true },
+    { input: "hello", expected: false },
+    { input: "aa", expected: true },
+    { input: "ab", expected: false },
+    { input: "aba", expected: true },
+    { input: "abba", expected: true },
+    { input: "abcba", expected: true },
+    { input: "abcdef", expected: false }
+  ];
+
+  console.log('Testing checkPalindrome...');
+  let passed = 0;
+  let failed = 0;
+
+  testCases.forEach(({ input, expected }) => {
+    const result = solution(input);
+    if (result === expected) {
+      console.log(`✓ "${input}" => ${result}`);
+      passed++;
+    } else {
+      console.log(`✗ "${input}" => Expected ${expected}, got ${result}`);
+      failed++;
+    }
+  });
+
+  console.log(`\nResults: ${passed} passed, ${failed} failed`);
+  return failed === 0;
+}
+
+if (require.main === module) {
+  runTests();
 }
